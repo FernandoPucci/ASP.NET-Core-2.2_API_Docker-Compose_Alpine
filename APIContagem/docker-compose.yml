@@ -1,9 +1,45 @@
 version: '3'
 
 services:
-  apicontagem-2-2-alpine:
+
+  backend-1-apicontagem-2-2-alpine:
     image: apicontagem-sdk-2-2-alpine
     build:
       context: .
     ports:
-      - "15000:80"
+      - "15001:80"
+    hostname: XPTO1
+    networks:
+      - default
+
+  backend-2-apicontagem-2-2-alpine:
+    image: apicontagem-sdk-2-2-alpine
+    build:
+      context: .
+    ports:
+      - "15002:80"
+    hostname: XPTO2
+    networks:
+      - default
+
+  backend-3-apicontagem-2-2-alpine:
+    image: apicontagem-sdk-2-2-alpine
+    build:
+      context: .
+    ports:
+      - "15003:80"
+    hostname: XPTO3
+    networks:
+      - default
+
+  loadbalancer:
+      build: ./load-balancer
+      tty: true      
+      ports:
+          - '8080:8080'
+      networks:
+          - default
+
+networks:  
+     default: 
+       driver: bridge
